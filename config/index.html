@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="author" content="<%= metadata.author %>">
+
+        <title><%= metadata.name %> Config</title>
+
+        <link rel="stylesheet" href="main.css?v=<%= metadata.versionLabel %>" />
+        <script src="app.js?v=<%= metadata.versionLabel %>"></script>
+    </head>
+
+    <body ng-controller="indexCtrl">
+        <div class="item-container-header header">
+            <a ng-click="cancel()" class="pull-right clickable">Cancel</a>
+            <h2><%= metadata.name %> <span class="ng-cloak">(v{{version}})</span></h2>
+        </div>
+
+        <div class="item-container outdated ng-cloak" ng-show="version < latestVersion">
+            You're running an outdated version of <%= metadata.name %>, update to v{{latestVersion}} for the latest and greatest features!
+        </div>
+
+        <div ng-show ="loaded">
+            <div class="item-container ng-cloak clear-fix">
+                <div class="item-container-header">Watchface Options</div>
+
+                <div class="item-container-content">
+                    <label class="item">
+                        How often to refresh AQI (Minutes)
+
+                        <div class="item-input-wrapper">
+                            <input type="number" class="item-input" id="refresh_time" ng-model="config.refresh_time" min="1" />
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="item-container-content">
+                <label class="item">
+                    Debug Information
+
+                    <div class="select-triangle" ng-click="showDebug = !showDebug"></div>
+
+                    <div ng-if="showDebug">
+                        <div>
+                            When requested, copy this and send it to the developer via email.
+                        </div>
+                        <code class="selectable" ng-bind="debug | json"></code>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="item-container ng-cloak">
+            <div class="button-container">
+                <input type="button" class="item-button clickable" value="SAVE" ng-click="save()" />
+            </div>
+        </div>
+    </body>
+</html>

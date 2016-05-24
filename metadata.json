@@ -1,0 +1,52 @@
+{
+    "versionLabel": "1.0",
+    "name": "Hazy",
+    "longName": "Hazy (Air Quality Info)",
+    "author": "Brian Douglass",
+    "uuid": "4388ba0a-4b65-427a-99ec-11eb707f2a02",
+    "sdkVersion": "3",
+    "targetPlatforms": ["aplite", "basalt", "chalk"],
+    "enableMultiJS": true,
+    "watchface": true,
+    "health": false,
+    "resources": {
+        "media": [
+            {
+                "name": "DROIDSANS_BOLD_50",
+                "file": "fonts/DroidSans-Bold.ttf",
+                "characterRegex": "[0-9:]",
+                "type": "font"
+            }, {
+                "name": "DROIDSANS_BOLD_30",
+                "file": "fonts/DroidSans-Bold.ttf",
+                "characterRegex": "[0-9:]",
+                "type": "font"
+            }, {
+                "name": "DROIDSANS_15",
+                "file": "fonts/DroidSans.ttf",
+                "type": "font"
+            }
+        ]
+    },
+    "config": [
+        {
+            "name": "fetch",
+            "only": "app_key",
+            "app_key": 0
+        }, {
+            "name": "aqi",
+            "only": "app_key",
+            "app_key": 1
+        }, {
+            "name": "last_location",
+            "type": "string",
+            "only": "js",
+            "default": null
+        }, {
+            "name": "refresh_time",
+            "type": "int",
+            "default": 30,
+            "app_key": 2
+        }
+    ]
+}

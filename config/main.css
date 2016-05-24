@@ -1,0 +1,31 @@
+.ng-cloak {
+    display: none !important;
+}
+
+.header {
+    background-color: #333333;
+}
+
+.pull-right {
+    float: right;
+}
+
+.clear-fix {
+    clear: both;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.error {
+    color: #FF4700;
+}
+
+.outdated {
+    text-align: center;
+}
+
+#battery_percent {
+    width: 100px;
+}
