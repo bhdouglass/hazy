@@ -29,3 +29,7 @@
 #battery_percent {
     width: 100px;
 }
+
+.centered {
+    text-align: center;
+}

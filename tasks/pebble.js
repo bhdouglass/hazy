@@ -172,7 +172,7 @@ gulp.task('pebble-build-resources', function() {
 });
 
 gulp.task('pebble-build-appinfo', function() {
-    var app_keys = {};
+    var app_keys = metadata.extra_app_keys ? metadata.extra_app_keys : {};
     var config_constants = {};
     var config_types = {};
 

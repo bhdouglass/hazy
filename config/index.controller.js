@@ -8,6 +8,7 @@ angular.module('app').controller('indexCtrl', function($scope, $http, $location,
     $scope.version = 1.0;
     $scope.latestVersion = metadata.versionLabel;
     $scope.platform = 'aplite';
+    $scope.token = null;
     $scope.config = {};
     $scope.debug = {
         config: null,
@@ -65,6 +66,10 @@ angular.module('app').controller('indexCtrl', function($scope, $http, $location,
 
         if (query.llec) {
             $scope.debug.last_location_error_code = query.llec;
+        }
+
+        if (query.token) {
+            $scope.token = query.token;
         }
 
         console.log('version: ' + $scope.version);

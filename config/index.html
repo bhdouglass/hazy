@@ -22,7 +22,16 @@
             You're running an outdated version of <%= metadata.name %>, update to v{{latestVersion}} for the latest and greatest features!
         </div>
 
-        <div ng-show ="loaded">
+        <div class="item-container centered">
+            <kiezelpay
+                appid="1400043768"
+                token="token"
+                testing="true"
+                licensed-message="Thank you for purchasing Hazy!"
+            ></kiezelpay>
+        </div>
+
+        <div ng-if="loaded">
             <div class="item-container ng-cloak clear-fix">
                 <div class="item-container-header">Watchface Options</div>
 

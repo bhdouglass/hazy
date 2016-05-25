@@ -44,6 +44,27 @@ and add `angular-slate` to your angular app's dependencies.
 - `draggable_list` is an array of objects that will be reordered by the user.
 - `label` is a property of `draggable_list` that will be shown to the user.
 
+### KiezelPay
+
+```
+<kiezelpay
+    appid="{{appid}}"
+    token="token"
+    testing="false"
+    licensed-message="{{optional message}}"
+    unlicensed-message="{{optional message}}"
+    trial-message="{{optional message}}"
+></kiezelpay>
+```
+
+- `appid` is your app's KiezelPay ID
+- `token` is the watch's token from `Pebble.getAccountToken()`
+- `testing` can be set to true to show test purchases
+- `licensed-message` is an optional message to show when the user has a license
+- `unlicensed-message` is an optional message to show when the user has no license
+- `trial-message` is an optional message to show when the user is in the trial period
+- The classes `licensed`, `unlicensed`, and `trial` will be applied to the directive to allow you to style as needed
+
 ## License
 
 Copyright (C) 2016 [Brian Douglass](http://bhdouglass.com/)

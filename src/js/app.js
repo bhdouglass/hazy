@@ -5,6 +5,7 @@ var constants = require('constants');
 
 var WeatherMan = require('libs/weather-man');
 var MessageQueue = require('libs/js-message-queue');
+var kiezelPayInit = require('libs/kiezelpay');
 
 function ack(e) {
     console.log('Successfully delivered message with transactionId=' + e.data.transactionId);
@@ -14,25 +15,27 @@ function nack(e) {
     console.log('Unable to deliver message with transactionId=' + e.data.transactionId + ', error is: ' + e.error.message);
 }
 
+function messageRecieved(e) {
+    logger.log(logger.MESSAGE_RECIEVED);
+    console.log('Received message: ' + JSON.stringify(e.payload));
+    if (e.payload && e.payload.fetch) {
+        fetchLocation();
+    }
+}
+
 Pebble.addEventListener('ready', function(e) {
     console.log('starting js, v' + metadata.versionLabel);
 
     logger.load();
     logger.log(logger.APP_START);
 
+    kiezelPayInit(messageRecieved);
+
     config.load();
     config.send();
 
     //MessageQueue.sendAppMessage({aqi: 40}, ack, nack); //for nice screenshots
     fetchLocation();
-});
-
-Pebble.addEventListener('appmessage', function(e) {
-    logger.log(logger.MESSSAGE_RECIEVED);
-    console.log('Received message: ' + JSON.stringify(e.payload));
-    if (e.payload && e.payload.fetch) {
-        fetchLocation();
-    }
 });
 
 Pebble.addEventListener('showConfiguration', function(e) {
@@ -46,7 +49,7 @@ Pebble.addEventListener('showConfiguration', function(e) {
     var url = '<%= config_url %>?platform=' +
         platform + '&version=' + metadata.versionLabel +
         '&dl=' + logger.getLog() + '&lsc=' + logger.getStatusCode() +
-        '&llec=' + logger.getLocationErrorCode() +
+        '&llec=' + logger.getLocationErrorCode() + '&token=' + Pebble.getAccountToken() +
         '#' + encodeURIComponent(JSON.stringify(config.config));
 
     Pebble.openURL(url);
