@@ -44,6 +44,18 @@
                         </div>
                     </label>
                 </div>
+
+                <div class="item-container-content">
+                    <div class="item">
+                        Air Quality information comes from <a href="http://aqicn.org/">aqicn.org</a>
+                    </div>
+                </div>
+
+                <div class="item-container-content" ng-if="config.last_location">
+                    <div class="item">
+                        Your last AQI reading came from {{config.last_location}}.
+                    </div>
+                </div>
             </div>
 
             <div class="item-container-content">
