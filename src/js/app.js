@@ -34,7 +34,6 @@ Pebble.addEventListener('ready', function(e) {
     config.load();
     config.send();
 
-    //MessageQueue.sendAppMessage({aqi: 40}, ack, nack); //for nice screenshots
     fetchLocation();
 });
 

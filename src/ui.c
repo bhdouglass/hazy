@@ -17,17 +17,35 @@ void ui_set_datetime(struct tm *tick_time, TimeUnits units_changed) {
             memmove(ui.texts.time, &ui.texts.time[1], sizeof(ui.texts.time) - 1);
         }
 
+        //For nice screenshots
+        //strncpy(ui.texts.time, "12:00", sizeof(ui.texts.time));
+        //strncpy(ui.texts.time, "6:30", sizeof(ui.texts.time));
+        //strncpy(ui.texts.time, "9:00", sizeof(ui.texts.time));
+        //strncpy(ui.texts.time, "12:15", sizeof(ui.texts.time));
+
         text_layer_set_text(ui.layers.time, ui.texts.time);
     }
 
     if (units_changed & DAY_UNIT || units_changed & MONTH_UNIT) {
         strftime(ui.texts.date, sizeof(ui.texts.date), "%a, %b %e", tick_time);
 
+        //For nice screenshots
+        //strncpy(ui.texts.date, "Thu, May 28", sizeof(ui.texts.date));
+        //strncpy(ui.texts.date, "Thu, Feb 28", sizeof(ui.texts.date));
+        //strncpy(ui.texts.date, "Fri, May 27", sizeof(ui.texts.date));
+        //strncpy(ui.texts.date, "Mon, Nov 5", sizeof(ui.texts.date));
+
         text_layer_set_text(ui.layers.date, ui.texts.date);
     }
 }
 
 void ui_set_aqi(int aqi) {
+    //For nice screenshots
+    //aqi = 45;
+    //aqi = 70;
+    //aqi = 130;
+    //aqi = 165;
+
     if (aqi == NO_DATA) { //Error condition
         strncpy(ui.texts.aqi, "", sizeof(ui.texts.aqi));
     }
@@ -102,6 +120,10 @@ void ui_window_load(Window *window) {
         NULL,
         GColorWhite
     );
+
+    #ifdef PBL_BW
+        bitmap_layer_set_background_color(ui.layers.aqi_border, GColorDarkGray);
+    #endif
 
     ui.layers.aqi = text_layer_init(
         ui.layers.window,
