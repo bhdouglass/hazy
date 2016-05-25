@@ -28,7 +28,7 @@ void ui_set_datetime(struct tm *tick_time, TimeUnits units_changed) {
 }
 
 void ui_set_aqi(int aqi) {
-    if (aqi == -999) { //Error condition
+    if (aqi == NO_DATA) { //Error condition
         strncpy(ui.texts.aqi, "", sizeof(ui.texts.aqi));
     }
     else {

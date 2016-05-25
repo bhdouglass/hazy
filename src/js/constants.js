@@ -1,6 +1,12 @@
 var metadata = require('metadata');
 
-var constants = {};
+var constants = {
+    NO_ERROR: 0,
+    LOCATION_ERROR: 1,
+    AQI_ERROR: 2,
+    NO_DATA: -999,
+};
+
 for (var enum_ in metadata.enums) {
     var e = metadata.enums[enum_];
     for (var key in e) {

@@ -61,6 +61,10 @@
             "type": "int",
             "default": 30,
             "app_key": 2
+        }, {
+            "name": "aqi_error",
+            "only": "app_key",
+            "app_key": 3
         }
     ]
 }

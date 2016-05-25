@@ -85,6 +85,10 @@ function fetchLocation() {
         logger.setLocationErrorCode(err.code);
 
         console.warn('location error: ' + err.code + ' - ' + err.message);
+        MessageQueue.sendAppMessage({
+            aqi: constants.NO_DATA,
+            aqi_error: constants.LOCATION_ERROR,
+        }, ack, nack);
 
     }, { //Options
         timeout: 30000, //30 seconds
@@ -94,7 +98,8 @@ function fetchLocation() {
 
 function fetchAirQuality(pos) {
     var message = {
-        aqi: -999,
+        aqi: constants.NO_DATA,
+        aqi_error: constants.NO_ERROR,
     };
 
     logger.log(logger.FETCH_AQI);
@@ -113,7 +118,8 @@ function fetchAirQuality(pos) {
         logger.log(logger.AQI_ERROR);
         console.warn('aqi error: ' + JSON.stringify(result));
 
-        message.aqi = -999;
+        message.aqi = constants.NO_DATA;
+        message.aqi_error = constants.AQI_ERROR;
 
         if (result && result.status) {
             console.log(result.status);

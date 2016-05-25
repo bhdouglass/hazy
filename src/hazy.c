@@ -7,10 +7,11 @@
 #include "ui.h"
 
 int elapsed_time = 0;
+int error_wait = 0;
 bool bluetooth_connected = true;
 int fails = 0;
+int error = NO_ERROR;
 
-//TODO wait in the event of an error & remove aqi
 static void fetch() {
     if (bluetooth_connected) {
         Tuplet value = TupletInteger(APP_KEY_FETCH, 1);
@@ -26,6 +27,8 @@ static void fetch() {
         app_message_outbox_send();
         //AppMessageResult send_result = app_message_outbox_send();
         //APP_LOG(APP_LOG_LEVEL_DEBUG, "%s", translate_message_error(send_result));
+
+        error = FETCH_ERROR;
     }
 }
 
@@ -33,13 +36,22 @@ static void handle_tick(struct tm *tick_time, TimeUnits units_changed) {
     ui_set_datetime(tick_time, units_changed);
 
     elapsed_time++;
-    if (elapsed_time >= config.refresh_time) {
-        fetch();
+    if (error == NO_ERROR) {
+        if (elapsed_time >= config.refresh_time) {
+            fetch();
+        }
+    }
+    else {
+        if (elapsed_time >= error_wait) {
+            fetch();
+        }
     }
 }
 
 static void handle_outbox_failed(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "message failed to send: %s", translate_message_error(reason));
+
+    ui_set_aqi(NO_DATA);
 
     fails++;
     if (fails < 10) {
@@ -58,6 +70,23 @@ static void handle_inbox_received(DictionaryIterator *iter, void *context) {
             case APP_KEY_AQI:
                 ui_set_aqi(data->value->int32);
                 elapsed_time = 0;
+
+                break;
+
+            case APP_KEY_AQI_ERROR:
+                error = data->value->int32;
+
+                if (error == NO_ERROR) {
+                    error_wait = 0;
+                }
+                else {
+                    if (error_wait < 10) {
+                        error_wait++;
+                    }
+                }
+
+                APP_LOG(APP_LOG_LEVEL_DEBUG, "error: %d", error);
+                APP_LOG(APP_LOG_LEVEL_DEBUG, "error_wait: %d", error_wait);
 
                 break;
 
