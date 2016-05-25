@@ -1,26 +1,26 @@
 /*
 * KiezelPay Integration Library - v1.4 - Copyright Kiezel 2016
 *
-* BECAUSE THE LIBRARY IS LICENSED FREE OF CHARGE, THERE IS NO 
-* WARRANTY FOR THE LIBRARY, TO THE EXTENT PERMITTED BY APPLICABLE 
-* LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT 
-* HOLDERS AND/OR OTHER PARTIES PROVIDE THE LIBRARY "AS IS" 
-* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, 
-* INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+* BECAUSE THE LIBRARY IS LICENSED FREE OF CHARGE, THERE IS NO
+* WARRANTY FOR THE LIBRARY, TO THE EXTENT PERMITTED BY APPLICABLE
+* LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
+* HOLDERS AND/OR OTHER PARTIES PROVIDE THE LIBRARY "AS IS"
+* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED,
+* INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE
 * RISK AS TO THE QUALITY AND PERFORMANCE OF THE LIBRARY IS WITH YOU.
-* SHOULD THE LIBRARY PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL 
+* SHOULD THE LIBRARY PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
 * NECESSARY SERVICING, REPAIR OR CORRECTION.
-* 
-* IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN 
-* WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY 
-* MODIFY AND/OR REDISTRIBUTE THE LIBRARY AS PERMITTED ABOVE, BE 
-* LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, 
-* INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR 
+*
+* IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN
+* WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY
+* MODIFY AND/OR REDISTRIBUTE THE LIBRARY AS PERMITTED ABOVE, BE
+* LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL,
+* INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR
 * INABILITY TO USE THE LIBRARY (INCLUDING BUT NOT LIMITED TO LOSS
-* OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY 
+* OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY
 * YOU OR THIRD PARTIES OR A FAILURE OF THE LIBRARY TO OPERATE WITH
-* ANY OTHER SOFTWARE), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN 
+* ANY OTHER SOFTWARE), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN
 * ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 */
 
@@ -28,19 +28,19 @@
 #include <pebble.h>
 /**
   Set to 1 to enable verbose logging, handy for tracking down issues with the kiezelpay integration
-  
+
   Set to 0 before releasing
 */
-#define KIEZELPAY_LOG_VERBOSE 1
+#define KIEZELPAY_LOG_VERBOSE 0
 
 /**
   When set to 1, you can test the purchasing of your app without having to pay for real.
   When set to 1, trial times will always be 30 seconds (only when time trial is enabled here and on the server)
   When set to 1, periodic status re-checks will happen every 60 seconds (only when enabled)
-  
+
   Test purchases only, set to 0 before releasing or users can get your app for free!
 */
-#define KIEZELPAY_TEST_MODE 1
+#define KIEZELPAY_TEST_MODE 0
 
 /**
   Set to 1 to remove all code which has to do with the time based trial. This saves memory and code space in case you don't use it.
@@ -53,7 +53,7 @@
 
 /**
   Set to 1 when you want to remove all code that has to do with message display to save memory and code space, in this mode the message display needs to be handled by yourself!
-  
+
   Set to 0 to let the kiezelpay lib show messages itself in case you don't handle them (e.g. purchasing, messages about internet connection issues, ...)
 */
 #define KIEZELPAY_DISABLE_MESSAGES 0
@@ -64,7 +64,7 @@
   RECOMMENDED: Set to 0 to let kiezelpay automatically recheck the licensed state of this app online after it was purchased,
   this prevents users from tampering with the stored license data (e.g. copy it from another licensed device) and makes it more secure.
   The duration between these checks is managed by the KiezelPay server, but will always be 24 hours or longer.
-  This check will not lock down the app in case there is no internet available or the server cannot be reached for any other reason, 
+  This check will not lock down the app in case there is no internet available or the server cannot be reached for any other reason,
   only when the kiezelpay effectively returns the status "unlicensed" will the user be shown the purchase dialog
 */
 #define KIEZELPAY_DISABLE_PERIODIC_CHECKS 0
@@ -73,15 +73,15 @@
 /**
   Default messages shown to the user in different stages of the purchase or when errors occur.
   Only used when the default KiezelPay messages are enabled (#define KIEZELPAY_DISABLE_MESSAGES 0)
-  
+
   You can change the messages to your liking here. Make sure to check if the changed message still fits the display of all different pebble watches.
 */
 #define KIEZELPAY_UNKNOWN_ERROR_MSG "An unknown error occurred"
 #define KIEZELPAY_BLUETOOTH_UNAVAILABLE_MSG "There is a problem with the connection between your watch and your phone"
 #define KIEZELPAY_INTERNET_UNAVAILABLE_MSG "There is a problem with the internet connection of your phone"
-/** 
-  You can replace "code" with anything you want in the url, it will all work, e.g.: "kzl.io/myappname". 
-  It is also possible to configure that custom url in your product settings on our website so its shows your personalized purchase page to the customers 
+/**
+  You can replace "code" with anything you want in the url, it will all work, e.g.: "kzl.io/myappname".
+  It is also possible to configure that custom url in your product settings on our website so its shows your personalized purchase page to the customers
 */
 #define KIEZELPAY_CODE_AVAILABLE_MSG "To continue using this product please visit kzl.io/code and enter this code:"
 #define KIEZELPAY_PURCHASE_STARTED_MSG "Please complete the purchase process to unlock this app"
@@ -105,7 +105,7 @@ typedef enum {
   KIEZELPAY_LICENSED              = 1 << 7        /**< User has successfully completed the purchase and is now licensed to use your app ==> unlock all features available after purchase */
 } kiezelpay_event;
 
-/** 
+/**
   Handler signature to catch kiezelpay events.
   Return true if you handled the event, return false to let the KiezelPay library handle events and show the correct messages to the user
 */
@@ -136,7 +136,7 @@ typedef struct {
     Kiezelpay Event; assign a handler to receive interesting kiezelpay events. You can then choose to act upon them yourself, or let kiezelpay handle it.
   */
   kiezelpay_event_handler on_kiezelpay_event;
-  
+
   /**
     AppMessage events; assign to receive incoming AppMessages in your app
   */
@@ -150,7 +150,7 @@ typedef struct {
   KiezelPay settings instance, modify to override default settings.
 */
 extern kiezelpay_config kiezelpay_settings;
-  
+
 /** Call once on watchface/app init before using any other functions */
 void kiezelpay_init();
 
@@ -158,7 +158,7 @@ void kiezelpay_init();
 void kiezelpay_deinit();
 
 /**
-  Signal the kiezelpay lib that the user needs to purchase to continue. You need to call this when 
+  Signal the kiezelpay lib that the user needs to purchase to continue. You need to call this when
   there is no trial (KIEZELPAY_DISABLE_TIME_TRIAL == 1), you can call also it when you do have a trial
   in case you want to start the purchase process before the trial ends. If you dont call it in that case
   the purchase will start automatically as soon as the trial ends
@@ -183,10 +183,9 @@ time_t kiezelpay_get_trial_end_time();
   The return value of this function can be any combination of the kiezelpay_event values!
   e.g. trial ended and no internet; result == KIEZELPAY_TRIAL_ENDED | KIEZELPAY_NO_INTERNET
    ==> test the values like "if (result & KIEZELPAY_TRIAL_ENDED) { }"
-  BEWARE: this function can return the wrong result in the situation that a user deleted the app AFTER having purchased it, then later reinstalls the app. 
-  In that case the library "thinks" this is a clean install and will NOT return the status "KIEZELPAY_LICENSED" until there was communication with the 
-  kiezelpay server and it received the licensed status from the kiezelpay server (should not be more then a few seconds after installation). 
+  BEWARE: this function can return the wrong result in the situation that a user deleted the app AFTER having purchased it, then later reinstalls the app.
+  In that case the library "thinks" this is a clean install and will NOT return the status "KIEZELPAY_LICENSED" until there was communication with the
+  kiezelpay server and it received the licensed status from the kiezelpay server (should not be more then a few seconds after installation).
   Keep this in mind when showing messages to the user based on the result of this function.
 */
 int32_t kiezelpay_get_status();
-

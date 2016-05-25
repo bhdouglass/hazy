@@ -489,7 +489,6 @@ angular.module('angular-slate').directive('kiezelpay', ["$http", function($http)
             $scope.status = 'unlicensed';
 
             function updateMessage() {
-                console.log($scope.licensed_message);
                 if ($scope.status == 'licensed') {
                     $scope.message = $scope.licensed_message ? $scope.licensed_message : licensed_message;
                 }

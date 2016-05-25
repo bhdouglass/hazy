@@ -97,14 +97,14 @@ gulp.task('config-build', [
 gulp.task('config-deploy', ['config-build'], function() {
     return surge({
         project: paths.dist,
-        domain: fs.readFileSync('../CNAME', 'utf-8'),
+        domain: fs.readFileSync('CNAME', 'utf-8'),
     });
 });
 
 gulp.task('config-deploy-dev', ['config-build'], function() {
     return surge({
         project: paths.dist,
-        domain: 'dev-' + fs.readFileSync('../CNAME', 'utf-8'),
+        domain: 'dev-' + fs.readFileSync('CNAME', 'utf-8'),
     });
 });
 
