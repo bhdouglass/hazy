@@ -85,9 +85,6 @@ static void handle_inbox_received(DictionaryIterator *iter, void *context) {
                     }
                 }
 
-                APP_LOG(APP_LOG_LEVEL_DEBUG, "error: %d", error);
-                APP_LOG(APP_LOG_LEVEL_DEBUG, "error_wait: %d", error_wait);
-
                 break;
 
             default:

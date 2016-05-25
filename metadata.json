@@ -1,7 +1,7 @@
 {
     "versionLabel": "1.0",
     "name": "Hazy",
-    "longName": "Hazy (Air Quality Info)",
+    "longName": "Hazy (Air Quality)",
     "author": "Brian Douglass",
     "uuid": "4388ba0a-4b65-427a-99ec-11eb707f2a02",
     "sdkVersion": "3",
@@ -12,6 +12,11 @@
     "resources": {
         "media": [
             {
+                "menuIcon": true,
+                "type": "png",
+                "name": "IMAGE_MENU_ICON",
+                "file": "images/menu_icon.png"
+            }, {
                 "name": "DROIDSANS_BOLD_50",
                 "file": "fonts/DroidSans-Bold.ttf",
                 "characterRegex": "[0-9:]",
