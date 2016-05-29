@@ -8,6 +8,6 @@
   "dependencies": {
     "angular": "^1.5.5",
     "Slate": "pebble-slate#^0.0.3",
-    "angular-slate": "1.1.1"
+    "angular-slate": "1.1.3"
   }
 }

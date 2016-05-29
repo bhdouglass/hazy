@@ -471,7 +471,7 @@ angular.module('angular-slate').directive('draggable', ["$timeout", function($ti
 angular.module('angular-slate').directive('kiezelpay', ["$http", function($http) {
     var licensed_message = 'Thank you for purchasing this app!';
     var unlicensed_message = 'You have not yet purchased a license';
-    var trial_message = 'You are currently running the trial app';
+    var trial_message = 'You are currently running the trial app ({{hours}} hours left)';
 
     return {
         restrict: 'E',
@@ -487,13 +487,15 @@ angular.module('angular-slate').directive('kiezelpay', ["$http", function($http)
         template: '<div ng-class="{licensed: status == \'licensed\', unlicensed: status == \'unlicensed\', trial: status == \'trial\'}">{{message}}</div>',
         link: function($scope) {
             $scope.status = 'unlicensed';
+            $scope.trial_hours = 1;
 
             function updateMessage() {
                 if ($scope.status == 'licensed') {
                     $scope.message = $scope.licensed_message ? $scope.licensed_message : licensed_message;
                 }
                 else if ($scope.status == 'trial') {
-                    $scope.message = $scope.trial_message ? $scope.trial_message : trial_message;
+                    var message = $scope.trial_message ? $scope.trial_message : trial_message;
+                    $scope.message = message.replace('{{hours}}', $scope.trial_hours);
                 }
                 else {
                     $scope.message = $scope.unlicensed_message ? $scope.unlicensed_message : unlicensed_message;
@@ -512,8 +514,15 @@ angular.module('angular-slate').directive('kiezelpay', ["$http", function($http)
                     }
 
                     $http.get(url).then(function(res) {
-                        console.log(res);
                         $scope.status = res.data.status;
+                        if ($scope.status == 'trial' && res.data.trialDurationInSeconds) {
+                            var trial_hours = Math.ceil(res.data.trialDurationInSeconds / 3600);
+                            $scope.trial_hours = trial_hours ? trial_hours : 1;
+                        }
+                        else {
+                            $scope.trial_hours = 1;
+                        }
+
                         updateMessage();
 
                     }, function(err) {
