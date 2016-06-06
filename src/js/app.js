@@ -1,3 +1,6 @@
+window.location = {}; //shim for iOS
+document.createElement = null; //shim to trick the browserify shims, yay! (also for iOS, yay!)
+
 var config = require('config');
 var logger = require('logger');
 var metadata = require('metadata');

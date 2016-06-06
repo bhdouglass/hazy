@@ -12,6 +12,39 @@ bool bluetooth_connected = true;
 int fails = 0;
 int error = NO_ERROR;
 
+/*
+static void kiezelpay_error_message() {
+    int32_t status = kiezelpay_get_status();
+    if (status & KIEZELPAY_NO_EVENT) {
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_NO_EVENT");
+    }
+    else if (status & KIEZELPAY_BLUETOOTH_UNAVAILABLE) {
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_BLUETOOTH_UNAVAILABLE");
+    }
+    else if (status & KIEZELPAY_INTERNET_UNAVAILABLE) {
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_INTERNET_UNAVAILABLE");
+    }
+    else if (status & KIEZELPAY_ERROR) {
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_ERROR");
+    }
+    else if (status & KIEZELPAY_TRIAL_STARTED) {
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_TRIAL_STARTED");
+    }
+    else if (status & KIEZELPAY_TRIAL_ENDED) {
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_TRIAL_ENDED");
+    }
+    else if (status & KIEZELPAY_CODE_AVAILABLE) {
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_CODE_AVAILABLE");
+    }
+    else if (status & KIEZELPAY_PURCHASE_STARTED) {
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_PURCHASE_STARTED");
+    }
+    else if (status & KIEZELPAY_LICENSED) {
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_LICENSED");
+    }
+}
+*/
+
 static void fetch() {
     if (bluetooth_connected) {
         Tuplet value = TupletInteger(APP_KEY_FETCH, 1);
