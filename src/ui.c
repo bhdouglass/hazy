@@ -8,6 +8,8 @@ int HALFPWIDTH = 72;
 int PHEIGHT = 168;
 int HALFPHEIGHT = 84;
 
+bool is_obstructed = false;
+
 void ui_set_datetime(struct tm *tick_time, TimeUnits units_changed) {
     if (units_changed & MINUTE_UNIT) {
         strftime(ui.texts.time, sizeof(ui.texts.time), clock_is_24h_style() ? "%H:%M" : "%I:%M", tick_time);
@@ -80,6 +82,42 @@ void ui_set_aqi(int aqi) {
     #endif
 }
 
+void ui_layout() {
+    int margin_left = PWIDTH / 8;
+    int margin_top = PHEIGHT / 4;
+    int border_width = 4;
+
+    #ifdef PBL_ROUND
+        margin_left = PWIDTH * 3 / 16;
+        margin_top = PHEIGHT  * 5 / 16;
+    #endif
+
+    if (is_obstructed) {
+        margin_top = 24;
+    }
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d", margin_top);
+
+    text_layer_move(ui.layers.date, margin_left - border_width, margin_top - 25);
+    bitmap_layer_move(ui.layers.aqi_border, margin_left - border_width, margin_top - border_width);
+    text_layer_move(ui.layers.aqi, margin_left, margin_top);
+    text_layer_move(ui.layers.time, margin_left - border_width, margin_top + 60);
+}
+
+void ui_set_unobstructed_area(GRect unobstructed_area) {
+    bool new_is_obstructed = true;
+
+    if (unobstructed_area.size.w == PWIDTH && unobstructed_area.size.h == PHEIGHT) {
+        new_is_obstructed = false;
+    }
+
+    if (new_is_obstructed != is_obstructed) {
+        is_obstructed = new_is_obstructed;
+
+        ui_layout();
+    }
+}
+
+
 void ui_window_load(Window *window) {
     ui.layers.window = window_get_root_layer(window);
 
@@ -116,7 +154,7 @@ void ui_window_load(Window *window) {
 
     ui.layers.aqi_border = bitmap_layer_init(
         ui.layers.window,
-        GRect(margin_left - border_width, margin_top - border_width, width + (border_width * 2), 73),
+        GRect(margin_left - border_width, margin_top - border_width, width + (border_width * 2), 68),
         NULL,
         GColorWhite
     );
@@ -127,7 +165,7 @@ void ui_window_load(Window *window) {
 
     ui.layers.aqi = text_layer_init(
         ui.layers.window,
-        GRect(margin_left, margin_top, width, 65),
+        GRect(margin_left, margin_top, width, 60),
         ui.fonts.droidsans_bold_50,
         GColorBlack,
         GColorWhite,
@@ -136,7 +174,7 @@ void ui_window_load(Window *window) {
 
     ui.layers.time = text_layer_init(
         ui.layers.window,
-        GRect(margin_left - border_width, margin_top + 65, width + (border_width * 2), 40),
+        GRect(margin_left - border_width, margin_top + 60, width + (border_width * 2), 40),
         ui.fonts.droidsans_bold_30,
         GColorClear,
         GColorBlack,

@@ -29,8 +29,10 @@ struct UI {
     struct Texts texts;
 };
 
+void ui_layout();
 void ui_set_datetime(struct tm *tick_time, TimeUnits units_changed);
 void ui_set_aqi(int aqi);
+void ui_set_unobstructed_area(GRect unobstructed_area);
 
 void ui_init();
 void ui_deinit();

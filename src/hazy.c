@@ -117,6 +117,12 @@ static void handle_bluetooth(bool connected) {
     }
 }
 
+static void handle_obstruction(GRect final_unobstructed_screen_area, void *context) {
+    //TODO smartly handle this, rather than just hide stuff
+
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "obstructed");
+    ui_set_unobstructed_area(final_unobstructed_screen_area);
+}
 
 static void init(void) {
     setlocale(LC_ALL, "");
@@ -132,6 +138,11 @@ static void init(void) {
     handle_bluetooth(connection_service_peek_pebble_app_connection());
     bluetooth_connection_service_subscribe(&handle_bluetooth);
 
+    UnobstructedAreaHandlers unobstructed_area_handlers = {
+        .will_change = handle_obstruction,
+    };
+    unobstructed_area_service_subscribe(unobstructed_area_handlers, NULL);
+
     app_message_register_outbox_failed(&handle_outbox_failed);
     app_message_register_inbox_received(&handle_inbox_received);
     //app_message_register_inbox_dropped(&handle_inbox_dropped);
@@ -144,7 +155,8 @@ static void deinit(void) {
 
     tick_timer_service_unsubscribe();
     bluetooth_connection_service_unsubscribe();
-    //app_message_deregister_callbacks();
+    unobstructed_area_service_unsubscribe();
+    app_message_deregister_callbacks();
 }
 
 int main(void) {
