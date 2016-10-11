@@ -3,7 +3,7 @@
 #include <pebble.h>
 
 struct Fonts {
-    GFont droidsans_bold_50;
+    GFont droidsans_bold_45;
     GFont droidsans_bold_30;
     GFont droidsans_15;
 };

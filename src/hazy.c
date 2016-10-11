@@ -120,7 +120,6 @@ static void handle_bluetooth(bool connected) {
 static void handle_obstruction(GRect final_unobstructed_screen_area, void *context) {
     //TODO smartly handle this, rather than just hide stuff
 
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "obstructed");
     ui_set_unobstructed_area(final_unobstructed_screen_area);
 }
 

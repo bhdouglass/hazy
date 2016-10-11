@@ -95,7 +95,6 @@ void ui_layout() {
     if (is_obstructed) {
         margin_top = 24;
     }
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d", margin_top);
 
     text_layer_move(ui.layers.date, margin_left - border_width, margin_top - 25);
     bitmap_layer_move(ui.layers.aqi_border, margin_left - border_width, margin_top - border_width);
@@ -166,7 +165,7 @@ void ui_window_load(Window *window) {
     ui.layers.aqi = text_layer_init(
         ui.layers.window,
         GRect(margin_left, margin_top, width, 60),
-        ui.fonts.droidsans_bold_50,
+        ui.fonts.droidsans_bold_45,
         GColorBlack,
         GColorWhite,
         GTextAlignmentCenter
@@ -204,7 +203,7 @@ void ui_init() {
     struct Texts texts;
     struct Layers layers;
 
-    fonts.droidsans_bold_50 = fonts_load_resource_font(RESOURCE_ID_DROIDSANS_BOLD_50);
+    fonts.droidsans_bold_45 = fonts_load_resource_font(RESOURCE_ID_DROIDSANS_BOLD_45);
     fonts.droidsans_bold_30 = fonts_load_resource_font(RESOURCE_ID_DROIDSANS_BOLD_30);
     fonts.droidsans_15 = fonts_load_resource_font(RESOURCE_ID_DROIDSANS_15);
 
@@ -229,7 +228,7 @@ void ui_init() {
 void ui_deinit() {
     window_destroy(ui.window);
 
-    fonts_unload_custom_font_safe(ui.fonts.droidsans_bold_50);
+    fonts_unload_custom_font_safe(ui.fonts.droidsans_bold_45);
     fonts_unload_custom_font_safe(ui.fonts.droidsans_bold_30);
     fonts_unload_custom_font_safe(ui.fonts.droidsans_15);
 }
