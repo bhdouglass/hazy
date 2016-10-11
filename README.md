@@ -1,6 +1,13 @@
-# Hazy
+# Hazy (Pebble Watchface)
 
-Pebble watchface for air quality information.
+Check the air quality (AQI) right from your Pebble smartwatch, wherever you are
+in the world! This watchface changes colors according to the severity of the air
+quality so you can tell from a quick glance how unhealthy it is outside.
+
+Air quality data is provided by aqicn.org. The Hazy watchface and its author are
+not affiliated with or endorsed by aqicn.org.
+
+[Get Hazy on your Pebble](https://apps.getpebble.com/applications/574537f64b706803bc000002)
 
 ## License
 
