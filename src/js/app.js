@@ -1,14 +1,13 @@
 window.location = {}; //shim for iOS
 document.createElement = null; //shim to trick the browserify shims, yay! (also for iOS, yay!)
 
-var config = require('config');
-var logger = require('logger');
-var metadata = require('metadata');
-var constants = require('constants');
+var config = require('./config');
+var logger = require('./logger');
+var metadata = require('./metadata');
+var constants = require('./constants');
 
-var WeatherMan = require('libs/weather-man');
-var MessageQueue = require('libs/js-message-queue');
-var kiezelPayInit = require('libs/kiezelpay');
+var WeatherMan = require('./libs/weather-man');
+var MessageQueue = require('./libs/js-message-queue');
 
 function ack(e) {
     console.log('Successfully delivered message with transactionId=' + e.data.transactionId);
@@ -31,8 +30,6 @@ Pebble.addEventListener('ready', function(e) {
 
     logger.load();
     logger.log(logger.APP_START);
-
-    kiezelPayInit(messageRecieved);
 
     config.load();
     config.send();

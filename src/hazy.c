@@ -1,5 +1,4 @@
 #include <pebble.h>
-#include "kiezelpay.h"
 
 #include "hazy.h"
 #include "helpers.h"
@@ -11,39 +10,6 @@ int error_wait = 0;
 bool bluetooth_connected = true;
 int fails = 0;
 int error = NO_ERROR;
-
-/*
-static void kiezelpay_error_message() {
-    int32_t status = kiezelpay_get_status();
-    if (status & KIEZELPAY_NO_EVENT) {
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_NO_EVENT");
-    }
-    else if (status & KIEZELPAY_BLUETOOTH_UNAVAILABLE) {
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_BLUETOOTH_UNAVAILABLE");
-    }
-    else if (status & KIEZELPAY_INTERNET_UNAVAILABLE) {
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_INTERNET_UNAVAILABLE");
-    }
-    else if (status & KIEZELPAY_ERROR) {
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_ERROR");
-    }
-    else if (status & KIEZELPAY_TRIAL_STARTED) {
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_TRIAL_STARTED");
-    }
-    else if (status & KIEZELPAY_TRIAL_ENDED) {
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_TRIAL_ENDED");
-    }
-    else if (status & KIEZELPAY_CODE_AVAILABLE) {
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_CODE_AVAILABLE");
-    }
-    else if (status & KIEZELPAY_PURCHASE_STARTED) {
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_PURCHASE_STARTED");
-    }
-    else if (status & KIEZELPAY_LICENSED) {
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "KIEZELPAY_LICENSED");
-    }
-}
-*/
 
 static void fetch() {
     if (bluetooth_connected) {
@@ -155,7 +121,6 @@ static void handle_bluetooth(bool connected) {
 static void init(void) {
     setlocale(LC_ALL, "");
 
-    kiezelpay_init();
     config_init();
     ui_init();
 
@@ -167,21 +132,15 @@ static void init(void) {
     handle_bluetooth(connection_service_peek_pebble_app_connection());
     bluetooth_connection_service_subscribe(&handle_bluetooth);
 
-    kiezelpay_settings.on_inbox_received = handle_inbox_received;
-    //kiezelpay_settings.on_inbox_dropped = handle_inbox_dropped;
-    kiezelpay_settings.on_outbox_failed = handle_outbox_failed;
-    //kiezelpay_settings.on_outbox_sent = handle_outbox_sent;
-
-    //app_message_register_outbox_failed(&handle_outbox_failed);
-    //app_message_register_inbox_received(&handle_inbox_received);
+    app_message_register_outbox_failed(&handle_outbox_failed);
+    app_message_register_inbox_received(&handle_inbox_received);
     //app_message_register_inbox_dropped(&handle_inbox_dropped);
     //app_message_register_outbox_sent(&handle_outbox_sent);
-    //app_message_open(640, 64);
+    app_message_open(640, 64);
 }
 
 static void deinit(void) {
     ui_deinit();
-    kiezelpay_deinit();
 
     tick_timer_service_unsubscribe();
     bluetooth_connection_service_unsubscribe();

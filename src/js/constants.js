@@ -1,4 +1,4 @@
-var metadata = require('metadata');
+var metadata = require('./metadata');
 
 var constants = {
     NO_ERROR: 0,

@@ -1,5 +1,5 @@
-var metadata = require('metadata');
-var MessageQueue = require('libs/js-message-queue');
+var metadata = require('./metadata');
+var MessageQueue = require('./libs/js-message-queue');
 
 function Config() {
     this.config = {};
@@ -18,7 +18,8 @@ Config.prototype.send = function() {
     MessageQueue.sendAppMessage(message, function ack(e) {
         console.log('Successfully delivered config (transactionId=' + e.data.transactionId + ')');
     }, function nack(e) {
-        console.log('Unable to deliver config (transactionId=' + e.data.transactionId + '), error: ' + e.error.message);
+        var message = e.error ? e.error.message : 'unknown';
+        console.log('Unable to deliver config (transactionId=' + e.data.transactionId + '), error: ' + message);
     });
 };
 
